@@ -9,6 +9,6 @@ for (int i = 0; i < sizeof(c); ++i)
 	printf("\n%d byte is %x", i + 1, c & 0xFF);
 	c = c >> 8;
 }
-a = a & 0x00DDAABB;
+a = a & 0xFFAAFFFF;
 printf("\nChanged number is %x\n ", a );
 }
