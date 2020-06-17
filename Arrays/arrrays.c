@@ -122,7 +122,7 @@ printf("\nМатрица %d x %d заполненная по улитке\n",N,N
 	{
 		for(j=0;j<N;j++)
 		{
-			printf(" %d ",array4[i][j]);
+			printf("\t%d\t ",array4[i][j]);
 		} 
 		printf("\n");
 	}
