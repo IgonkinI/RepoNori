@@ -111,7 +111,7 @@ printf("\nМатрица %d x %d заполненная по улитке\n",N,N
 			array4[N-step][j]=i++;
 		}
 		
-		for (j=N-step-1;j>=step;j--) // Идем вверх справа
+		for (j=N-step-1;j>=step;j--) // Идем вверх слева
 		{
 			array4[j][step-1]=i++;
 		}
