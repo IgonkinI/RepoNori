@@ -15,7 +15,7 @@ int main(int argc, char const *argv[])
 	    printf("%d - й байт числа равен %d\n", i + 1, *ptr);
 	    ptr++;
 	}
-// Изменение второго байта числа а
+// Изменение третьего байта числа а
 	ptr = (char*)&a;
 	ptr+=2;
 	*ptr = 8;
