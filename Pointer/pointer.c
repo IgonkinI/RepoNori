@@ -7,8 +7,8 @@ int main(int argc, char const *argv[])
 	// В этом задание, из-за приравнивания разных типов, как я понял,
 	// возникает предупреждение. Но работает.
 	int a = 270533154;
-
-	char *ptr = &a;
+	// (char*) необходимо для избежания warning
+	char *ptr = (char*)&a;
 // Вывод 4-х байт числа а
 	for (int i = 0; i < 4; ++i)
 	{
@@ -16,12 +16,12 @@ int main(int argc, char const *argv[])
 	    ptr++;
 	}
 // Изменение второго байта числа а
-	ptr = &a;
+	ptr = (char*)&a;
 	ptr+=2;
 	*ptr = 8;
 	printf("\n3-й байт числа а изменен на %d\n",*ptr);
 
-	ptr = &a;
+	ptr = (char*)&a;
 // Вывод 4-х байт числа а
 	printf("\nОбновленное число а\n");
 	for (int i = 0; i < 4; ++i)
