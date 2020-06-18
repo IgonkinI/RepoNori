@@ -1,4 +1,4 @@
-#define N 10 // Размер матрицы
+#define N 9 // Размер матрицы
 #include <stdio.h>
 
 int main()
@@ -117,6 +117,10 @@ printf("\nМатрица %d x %d заполненная по улитке\n",N,N
 		}
 	}
 	
+	if (N%2!=0)
+	{
+		array4[N/2][N/2] = N*N;
+	}
 
 	for(i=0;i<N;i++)
 	{
