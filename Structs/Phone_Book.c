@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
 			case 1:
 			
 
-			
+			// Добавляем запись в наш массив структур
 			printf("\nEnter firstname and lastName\n");
 			
 			point = book[condition].firstName;
@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
 
 			case 2:
 
-			
+			// Выводим массив структур
 			for (int step = 0; step < condition; step++)
 			{
 				printf("\nName\tLast name\n");
@@ -82,7 +82,7 @@ int main(int argc, char const *argv[])
 			break;
 
 			case 3:
-
+			// Выполняем поиск по номеру телефона, если есть совпадение заменяем на "0" и "DELETE"
 			printf("\nEnter number to delete.\n");
 			long deleteNumber;
 			scanf("%ld",&deleteNumber);
@@ -101,6 +101,7 @@ int main(int argc, char const *argv[])
 				
 			}
 
+			// Если такого номера нет, выводим сообщение, мол, нету :) и наоборот
 			if (searchAnswer == 0)
 				{
 					printf("\nThis number does not exist\n");
@@ -111,6 +112,9 @@ int main(int argc, char const *argv[])
 
 			break;
 
+
+			// Выполняем поиск по номеру телефона в нашем массиве структур, если такой есть, то выводим 
+			// данные о клиенте, если такого номера нет, ничего не выводим.
 			case 4:
 
 			printf("\nEnter telepone number of client\n");
@@ -147,7 +151,7 @@ int main(int argc, char const *argv[])
 
 		}
 
-	} while (choice != 5);
+	} while (choice != 5); // Когда выполняется это условие, мы выходим из цикла и завершаем программу
 
 	
 
