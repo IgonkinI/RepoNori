@@ -12,14 +12,8 @@ struct client
 
 int main(int argc, char const *argv[])
 {
-	
 	struct client book[10];
-	
-
-
-	
-
-	int choice = 6;
+	int choice;
 	int condition = 0;
 	char *point;
 	do
@@ -83,6 +77,7 @@ int main(int argc, char const *argv[])
 
 			case 3:
 			// Выполняем поиск по номеру телефона, если есть совпадение заменяем на "0" и "DELETE"
+			
 			printf("\nEnter number to delete.\n");
 			long deleteNumber;
 			scanf("%ld",&deleteNumber);
@@ -92,6 +87,8 @@ int main(int argc, char const *argv[])
 				
 				if (book[i].number == deleteNumber)
 				{
+					
+
 					book[i].number = 0;
 					
 					strncpy(book[i].firstName,"DELETED",7);
