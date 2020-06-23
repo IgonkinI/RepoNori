@@ -1,3 +1,4 @@
+#define N 10
 #include "stdio.h"
 #include "string.h"
 
@@ -9,35 +10,66 @@ struct client
 
 };
 
+void addClient(struct client *book, int *numOfClient);
+void printBook(struct client *book, int numOfClientInBook);
+void deleteClient(struct client *book, int numOfClientInBook, long long deleteNumber);
+void searchClient(struct client *book, int numOfClientInBook, long long deleteNumber);
+
 
 int main(int argc, char const *argv[])
 {
-	struct client book[10];
+	struct client book[N];
+
 	int choice;
 	int condition = 0;
-	char *point;
+	long numberToSearch;
 	do
 	{
-		
-		printf("\n\tMenu\n1.Add client\n2.Show clients\n3.Remove client\n4.Search the client\n5.Exit\nWould you like?\n");
+		printf("\nPhone book\n1.Add client\n2.Show book\n3.Delete client\n4.Search client\n5.Exit\n");
+		scanf("%d", &choice);
 
-		scanf("%d",&choice);
-
-		switch(choice) {
+		switch(choice){
 
 			case 1:
-			
+			addClient(book, &condition);
+			condition++;
+			break;
 
-			// Добавляем запись в наш массив структур
+			case 2:
+			printBook(book,condition);
+			break;
+
+			case 3:
+			printf("\nEnter number of client: ");
+			scanf("%ld",&numberToSearch);
+			deleteClient(book, condition, numberToSearch);
+			break;
+
+			case 4:
+			printf("\nEnter number of client: ");
+			scanf("%ld",&numberToSearch);
+			searchClient(book, condition, numberToSearch);
+			break;
+		}
+
+		
+	} while (choice!=5);
+	
+	return 0;
+}
+
+void addClient(struct client *book, int *numOfClient){
+
+			char *point;
 			printf("\nEnter firstname and lastName\n");
 			
-			point = book[condition].firstName;
+			point = book[*numOfClient].firstName;
 			
 			while((*point++=getchar()) != ' ');
 			
 				*point = '\0'; 
 
-			point = book[condition].lastName;
+			point = book[*numOfClient].lastName;
 			
 			while((*point++=getchar()) != '\n');
 			
@@ -45,113 +77,53 @@ int main(int argc, char const *argv[])
 			
 			printf("\nEnter telephone\n");
 			
-			scanf("%ld", &book[condition].number); 
+			scanf("%ld", &book[*numOfClient].number); 
 
-			condition++;
-			break;
+}
 
-			case 2:
-
-			// Выводим массив структур
-			for (int step = 0; step < condition; step++)
-			{
-				printf("\nName\tLast name\n");
-
-				for (int i = 0; i < sizeof(book[step].firstName)/sizeof(book[step].firstName[0]); ++i)
-				{
-					printf("%c",book[step].firstName[i]);
-				}
-
-				printf("\t");
+void printBook(struct client *book, int numOfClientInBook){
 	
-				for (int i = 0; i < sizeof(book[step].lastName)/sizeof(book[step].lastName[0]); ++i)
-				{
-					printf("%c",book[step].lastName[i]);
-				}	
+		printf("\n_______________________________________________");
+	for (int i = 0; i < numOfClientInBook; ++i)
+	{	
+		printf("\n");
+		char str[32];
+		strcpy(str,book[i].firstName);
+		strcat(str," ");
+		strcat(str,book[i].lastName);
+		puts(str);
+		printf("%ld", book[i].number);
+		printf("\n_______________________________________________");
+	}
+}
 
-				printf("\nNumber\t%ld\n\n",book[step].number);
-
-			}
-
-			break;
-
-			case 3:
-			// Выполняем поиск по номеру телефона, если есть совпадение заменяем на "0" и "DELETE"
-			
-			printf("\nEnter number to delete.\n");
-			long deleteNumber;
-			scanf("%ld",&deleteNumber);
-			short searchAnswer = 0;
-			for (int i = 0; i < condition; ++i)
-			{
-				
-				if (book[i].number == deleteNumber)
-				{
-					
-
-					book[i].number = 0;
-					
-					strncpy(book[i].firstName,"DELETED",7);
-					strncpy(book[i].lastName, "DELETED", 7);
-					searchAnswer++;
-				}
-				
-			}
-
-			// Если такого номера нет, выводим сообщение, мол, нету :) и наоборот
-			if (searchAnswer == 0)
-				{
-					printf("\nThis number does not exist\n");
-				} else
-				{
-					printf("\nThis nimber is deleted\n");
-				}
-
-			break;
-
-
-			// Выполняем поиск по номеру телефона в нашем массиве структур, если такой есть, то выводим 
-			// данные о клиенте, если такого номера нет, ничего не выводим.
-			case 4:
-
-			printf("\nEnter telepone number of client\n");
-
-			long number_to_show;
-
-			scanf("%ld", &number_to_show);
-
-			for (int step = 0; step < condition; ++step)
-			{
-				
-				if (book[step].number == number_to_show)
-				{
-					
-					printf("\nName\tLast name\n");
-
-					for (int i = 0; i < sizeof(book[step].firstName)/sizeof(book[step].firstName[0]); ++i)
-					{
-						printf("%c",book[step].firstName[i]);
-					}
-
-					printf("\t");
+void deleteClient(struct client *book, int numOfClientInBook, long long deleteNumber){
 	
-					for (int i = 0; i < sizeof(book[step].lastName)/sizeof(book[step].lastName[0]); ++i)
-					{
-						printf("%c",book[step].lastName[i]);
-					}	
-
-					printf("\nNumber\t%ld\n\n",book[step].number);
-				}
-				
-			}
-			break;
-
+		
+	for (int i = 0; i < numOfClientInBook; ++i)
+	{		
+		if (book[i].number == deleteNumber)
+		{
+			book[i].number = 0;
+			strcpy(book[i].firstName,"DELETED");
+			strcpy(book[i].lastName,"DELETED");
 		}
+	}
+}
 
-	} while (choice != 5); // Когда выполняется это условие, мы выходим из цикла и завершаем программу
-
+void searchClient(struct client *book, int numOfClientInBook, long long deleteNumber){
 	
-
-
-	return 0;
+		printf("\n");
+	for (int i = 0; i < numOfClientInBook; ++i)
+	{		
+		if (book[i].number == deleteNumber)
+		{
+			char str[32];
+			strcpy(str,book[i].firstName);
+			strcat(str," ");
+			strcat(str,book[i].lastName);
+			puts(str);
+			printf("%ld", book[i].number);
+		}
+	}
 }
