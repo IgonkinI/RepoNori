@@ -1,9 +1,10 @@
 BIN := calc
-SOURCES := calc.c
+SOURCES := main.c
+SOURCES2 := calc.c
 CC := gcc
 .PHONY := clean
 $(BIN): $(SOURCES)
-		$(CC) $(SOURCES) -o $(BIN) -g
+		$(CC) $(SOURCES) $(SOURCES2) -o $(BIN) -g
 
 clean:
 		rm -rf $(BIN)
