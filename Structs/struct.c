@@ -1,12 +1,7 @@
 #include "stdio.h"
 #include "string.h"
-struct client
-{
-	char firstName[16];
-	char lastName[16];
-	long number;
+#include "struct.h"
 
-};
 void addClient(struct client *book, int *numOfClient){
 
 			char *point;
