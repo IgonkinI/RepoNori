@@ -2,6 +2,7 @@
 #include "string.h"
 #include "struct.h"
 
+
 void addClient(struct client *book, int *numOfClient){
 
 			char *point;

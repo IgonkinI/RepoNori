@@ -10,7 +10,7 @@ all: $(BIN) $(BIN2)
 
 $(BIN): $(SOURCES)
 		$(CC) $(SOURCES) -o $(BIN) -g
-$(BIN2): $(SOURCES2)
+$(BIN2): $(SOURCES2) $(SOURCES3)
 		$(CC) $(SOURCES2) $(SOURCES3) -o $(BIN2) -g
 
 clean:

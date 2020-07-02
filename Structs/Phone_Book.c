@@ -1,10 +1,15 @@
 #include "struct.h"
-#include "stdio.h"
-#define N 10
+#include <stdio.h>
+#include <malloc.h>
+#include <string.h>
+#include <stdlib.h>
+#define N 1
+
 
 int main(int argc, char const *argv[])
 {
-	struct client book[N];
+	struct client *book;
+	book = (struct client*)malloc(N * sizeof(struct client));
 
 	int choice;
 	int condition = 0;
@@ -19,6 +24,9 @@ int main(int argc, char const *argv[])
 			case 1:
 			addClient(book, &condition);
 			condition++;
+			if (condition >= N) {
+				book = realloc(book, (condition + 1) * sizeof(struct client));
+			}
 			break;
 
 			case 2:
@@ -40,6 +48,8 @@ int main(int argc, char const *argv[])
 
 		
 	} while (choice!=5);
+
+	free(book);
 	
 	return 0;
 }
