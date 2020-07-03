@@ -36,9 +36,7 @@ int main(int argc, char const *argv[])
 			case 3:
 			printf("\nEnter number of client: ");
 			scanf("%ld",&numberToSearch);
-			deleteClient(book, condition, numberToSearch);
-			condition = condition - 1;
-			book = realloc(book, (condition + 1) * sizeof(struct client));
+			deleteClient(book, &condition, numberToSearch);
 			break;
 
 			case 4:

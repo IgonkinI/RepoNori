@@ -43,18 +43,23 @@ void printBook(struct client *book, int numOfClientInBook){
 	}
 }
 
-void deleteClient(struct client *book, int numOfClientInBook, long long deleteNumber){
+void deleteClient(struct client *book, int *numOfClientInBook, long long deleteNumber){
 	
-	int numToDelete;
+	int numToDelete = -1;
 		
-	for (int i = 0; i < numOfClientInBook; ++i)
+	for (int i = 0; i < *numOfClientInBook; ++i)
 	{		
 		if (book[i].number == deleteNumber)
 		{
 			numToDelete = i;
 		}
 	}
-	for (int i = numToDelete; i < numOfClientInBook - 1 ; ++i)
+	if (numToDelete == -1)
+	{
+		printf("\nNumber does not exist!\n");
+		return;
+	}
+	for (int i = numToDelete; i < *numOfClientInBook - 1 ; ++i)
 	{
 		
 			book[i].number = book[i+1].number;
@@ -62,6 +67,8 @@ void deleteClient(struct client *book, int numOfClientInBook, long long deleteNu
 			strcpy(book[i].lastName,book[i+1].lastName);
 
 	}
+			*numOfClientInBook = *numOfClientInBook - 1;
+			book = realloc(book, (*numOfClientInBook + 1) * sizeof(struct client));
 }
 
 void searchClient(struct client *book, int numOfClientInBook, long long deleteNumber){
