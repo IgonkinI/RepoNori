@@ -1,7 +1,8 @@
 #include "stdio.h"
 #include "string.h"
 #include "struct.h"
-
+#include <malloc.h>
+#include <stdlib.h>
 
 void addClient(struct client *book, int *numOfClient){
 
@@ -44,15 +45,22 @@ void printBook(struct client *book, int numOfClientInBook){
 
 void deleteClient(struct client *book, int numOfClientInBook, long long deleteNumber){
 	
+	int numToDelete;
 		
 	for (int i = 0; i < numOfClientInBook; ++i)
 	{		
 		if (book[i].number == deleteNumber)
 		{
-			book[i].number = 0;
-			strcpy(book[i].firstName,"DELETED");
-			strcpy(book[i].lastName,"DELETED");
+			numToDelete = i;
 		}
+	}
+	for (int i = numToDelete; i < numOfClientInBook - 1 ; ++i)
+	{
+		
+			book[i].number = book[i+1].number;
+			strcpy(book[i].firstName,book[i+1].firstName);
+			strcpy(book[i].lastName,book[i+1].lastName);
+
 	}
 }
 
@@ -67,8 +75,10 @@ void searchClient(struct client *book, int numOfClientInBook, long long deleteNu
 			strcpy(str,book[i].firstName);
 			strcat(str," ");
 			strcat(str,book[i].lastName);
+			printf("\n_______________________________________________");
 			puts(str);
 			printf("%ld", book[i].number);
+			printf("\n_______________________________________________");
 		}
 	}
 }
