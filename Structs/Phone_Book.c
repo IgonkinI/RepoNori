@@ -13,6 +13,7 @@ int main(int argc, char const *argv[])
 
 	int choice;
 	int condition = 0;
+	//Переменная, нужная для поиска номера
 	long numberToSearch;
 	do
 	{
