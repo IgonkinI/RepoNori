@@ -14,6 +14,7 @@ int main(int argc, char const *argv[])
 	int choice;
 	int condition = 0;
 	long numberToSearch;
+	int countAdd = 0;
 	do
 	{
 		printf("\nPhone book\n1.Add client\n2.Show book\n3.Delete client\n4.Search client\n5.Exit\n");
@@ -24,7 +25,8 @@ int main(int argc, char const *argv[])
 			case 1:
 			addClient(book, &condition);
 			condition++;
-			if (condition >= N) {
+			countAdd++;
+			if ((condition >= N)&&(condition >= countAdd)) {
 				book = realloc(book, (condition + 1) * sizeof(struct client));
 			}
 			break;

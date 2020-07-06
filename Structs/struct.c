@@ -68,7 +68,7 @@ void deleteClient(struct client *book, int *numOfClientInBook, long long deleteN
 
 	}
 			*numOfClientInBook = *numOfClientInBook - 1;
-			book = realloc(book, (*numOfClientInBook) * sizeof(struct client));
+			//book = realloc(book, (*numOfClientInBook) * sizeof(struct client));
 }
 
 void searchClient(struct client *book, int numOfClientInBook, long long deleteNumber){
