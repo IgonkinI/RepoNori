@@ -24,6 +24,7 @@ void addClient(struct client *book, int *numOfClient){
 			printf("\nEnter telephone\n");
 			
 			scanf("%ld", &book[*numOfClient].number); 
+			
 
 }
 
@@ -59,6 +60,7 @@ void deleteClient(struct client *book, int *numOfClientInBook, long long deleteN
 		printf("\nNumber does not exist!\n");
 		return;
 	}
+	
 	for (int i = numToDelete; i < *numOfClientInBook - 1 ; ++i)
 	{
 		
