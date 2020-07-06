@@ -27,7 +27,6 @@ int main(int argc, char const *argv[])
 			if (condition >= N) {
 				book = realloc(book, (condition + 1) * sizeof(struct client));
 			}
-
 			printf("\n%d\n",condition);
 			break;
 
