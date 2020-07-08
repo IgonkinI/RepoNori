@@ -8,8 +8,7 @@ $(BIN): $(SOURCES)
 		gcc -c $(SOURCES)
 		gcc main.o -L. -lcalc -o $(BIN)
 		rm -rf *.o
-		
-		
+		export LD_LIBRARY_PATH=.; ./$(BIN)
 
 
 clean:
