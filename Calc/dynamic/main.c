@@ -2,7 +2,7 @@
 #include "calc.h"
 int main(int argc, char const *argv[])
 {
-	int a, b, y;
+	float a, b, y;
 	int choice;
 	// Цикл работает, пока не будет выбран пятый пункт
 do {
