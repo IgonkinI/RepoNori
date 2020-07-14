@@ -2,81 +2,130 @@
 #include "stdlib.h"
 #include "dlfcn.h"
 #include "string.h"
-
+#include <sys/types.h>
+#include <dirent.h>
 
 int main(int argc, char const *argv[])
-{	
-	int choice = 0;
-	// Если library_ptr == NULL, то происходит прекращение работы и вывод соответсвующего сообшения.
-	void *library_ptr;	
-	library_ptr = dlopen("libcalc.so", RTLD_LAZY);	
-	if (!library_ptr) { 
+{
+	DIR *dir;
+    struct dirent *entry;
+
+    dir = opendir("plagins");
+   
+    if (!dir) {
+        perror("diropen");
+        exit(1);
+    };
+
+   char test_name_of_functions[10][20];
+   int num = 0;
+   char functions[10][20];
+   
+    while ( (entry = readdir(dir)) != NULL) {
+
+        strncpy(test_name_of_functions[num],entry->d_name, 20);
+        num++;
+      	};
+
+    closedir(dir);
+    int mid = 0;
+    char function_names[10][30];
+
+    for (int i = 0; i < 10; i++){
+    	for (int j = 0; j < 30; ++j)
+    	{
+    		function_names[i][j]=0;
+    	}
+    }
+  	for (int i = 0; i < 10; i++){
+    	
+    	for (int j = 0; j < 20; ++j)
+    	{
+    		functions[i][j]=0;
+    	}
+    }
+    
+    for (int i = 0; i < num; ++i)
+    {
+    	if(!strncmp(test_name_of_functions[i], "lib",3)){
+
+    		strncpy(function_names[mid],"plagins/",8);
+    		function_names[mid][8]=0;
+    		strncat(function_names[mid],test_name_of_functions[i],20);
+    		strncpy(functions[mid],test_name_of_functions[i], 20);
+     		mid++;
+    	}
+    }
+
+    void *ptr[10];
+
+    for (int i = 0; i < mid; ++i)
+    {
+    	ptr[i] = dlopen(function_names[i],RTLD_LAZY);
+
+    		if (!ptr) { 
 		fprintf(stderr, "dlopen failure: %s\n", dlerror()); 
         exit (EXIT_FAILURE); 
        }
-	printf("\n");
-	// line_of_names содержит все функции, которые имеются в библиотеке.
-	// Эту переменню должен заполнить разработчик. 
-	// Названия должны соответствовать названиям функций в библиотеке.
-	char *line_of_names;
-	line_of_names = dlsym(library_ptr, "names");
-	puts("Enter the names of the functions you need and then enter - exit");
-	puts(line_of_names);
-	// Калькулятор рассчитан на 10 функций, максимальная длина названия функции - 12 символов.
-	char answer[10][12];
-	int m = 0;
-	char st[] = "exit";
-	// Здесь мы узнаем, какие функции потребуются пользователю.
-	while (1){	
-		fgets(answer[m],12,stdin);
-	// Проверяем, ввел ли пользователь "exit", если да, то выходим из цикла.
-		if (!strncmp(answer[m],st,4)){
-			break;
-		}
-		m++;
-	}
-	// Удаляем символ окончания строки.
-	// Необходимо для обращения к функциям.
-	for (int i = 0; i <= m; ++i)
-	{
-		answer[i][strlen(answer[i]) - 1] = 0;
-	}
+    }
 
-	while (1){
-		float a, b, y;
-		printf("\n\nMenu\n");
-		for (int i = 0; i <= m; ++i)
-		{
-			printf("\n%d.%s",i + 1,answer[i] );
-		}
-	
-		do {
-			printf("\nPlease, enter function number:\n");
-			scanf("%d", &choice);
-			choice--;
-		} while ((choice > m) || (choice < 0));
-	// Проверка на выход из калькулятора.
-	// Если пользователь ввел номер выхода -
-	// прекращаем работу программы.
-		if (!strncmp(answer[choice],st,4)){
-			printf("\nThank you for using this calculator!\n");
-			return 0;
-		}
-		float (*wt_func)(float*, float*);
-		printf("\nEnter a = ");
+    int choice;
+   
+    while (1){
+
+    	puts("\nMenu");
+    	for (int i = 0; i < mid; ++i)
+    	{
+    		printf("%d.%s\n",i+1, function_names[i]);
+    	}
+    	printf("%d.Exit\n",mid+1);
+    	scanf("%d", &choice);
+    	
+
+    	if (choice == (mid + 1)){
+    		break;
+    	}
+  
+    	float a, b, y;
+
+   		printf("\nEnter a = ");
 		scanf("%f",&a);
 		printf("\nEnter b = ");
 		scanf("%f",&b);
-		wt_func = dlsym(library_ptr,answer[choice]);
-	// Если не найдем введеную пользователем функцию, программа прекратится и на экран выведется сообщение,
-	// что такой функции нет.
-		if (!wt_func) { 
-			fprintf(stderr, "dlsym failure: %s\n", dlerror()); 
-			exit (EXIT_FAILURE);
+
+		
+		
+		float (*wt_func)(float*, float*);
+		
+		
+		char questions[10][20];
+		// Зануляем все элементы
+		for (int i = 0; i < 10; i++){
+    	for (int j = 0; j < 20; ++j)
+    	{
+    		questions[i][j]=0;
+    	}
+  		  }
+
+		for (int k = 0; k < mid; k++){
+			for (int i = 3; i < strlen(functions[k]) - 3; i++){
+
+				questions[k][i-3] = functions[k][i];
+
 			}
+	}
+		
+		wt_func = dlsym(ptr[choice-1],questions[choice-1]);
+		
+		if (!wt_func) { 
+				fprintf(stderr, "dlsym failure: %s\n", dlerror()); 
+				exit (EXIT_FAILURE);
+				}
+
 		y = wt_func(&a,&b);
 		printf("\nAnswer is: %f\n", y);
-	}
-	dlclose(library_ptr);
+    }
+
+    printf("\nThanks!\n");
 	return 0;
 }
