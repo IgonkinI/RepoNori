@@ -42,18 +42,16 @@ int main(int argc, char **argv) {
 
   clear();
   refresh();
-  while (fgets(writed, sizeof(writed), fp)) {
-    writed[(sizeof(writed)/sizeof(char))-1] = '\0';
-       // writed[(sizeof(writed)/sizeof(char))-2] = '\0';
-    mvwaddstr(stdscr, x, y, writed);
-    x++;
+ 
+
+  while (fgets(writed, sizeof(writed)*buffer, fp)) {
     
-     
+    mvwaddstr(stdscr, x, y, writed);
     x++;
   }
   fclose(fp);
- // x=0;
-  //y=0;
+  x=0;
+  y=0;
   int max_Line = x;
   chtype *buff;
   char to_file;
@@ -65,15 +63,17 @@ int main(int argc, char **argv) {
         fp = fopen(name, "w");
         
         
-        for (int i = 0; i <= max_Line + 1; i++) {
+        for (int i = 0; i <= max_Line; i++) {
           
           buff = calloc(buffer, sizeof(chtype));	
-          mvwinchnstr(stdscr, i, 0, buff, buffer);
+          mvwinchnstr(stdscr, i, 0, buff, buffer-1);
           for (int j = 0; j <= buffer; j++) {
             to_file = (char)buff[j];
+            if (to_file != '\n'){
             fputc(to_file, fp);
           }
-          fputs("\n",fp);
+          }
+          fputc('\n',fp);
           free(buff);
           
         }
