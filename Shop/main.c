@@ -35,7 +35,7 @@ void *byer_act(void *ptr_to_shop) {
   int buff;
   printf("\nByer %d:\tInitial value: %d", byer, count);
 
-  while (count >= 0) {
+  while (count > 0) {
     pthread_mutex_lock(&mutex);
 
     buff = 0 + rand() % 5;
