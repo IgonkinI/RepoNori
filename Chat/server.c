@@ -33,7 +33,7 @@ int main() {
   key_t key_to_connect;
   int current_num_of_client = 0;
   struct connect msg_from[MAX_NUMBER_IN_CHAT];
-  struct store_of_message store[MAX_NUMBER_IN_CHAT];
+  struct store_of_message store[MAX_SIZE_OF_HISTORY_DUMP];
   int curr_pos_in_chat = 0;
   key_to_connect = ftok("/tmp", 'A');
   qId = msgget(key_to_connect, IPC_CREAT | 0666);
@@ -44,10 +44,11 @@ int main() {
   char connect_mes[] = " Joined the chat! Welcome! \n";
   do {
     // Подключение клиента к серверу
-
+    if (current_num_of_client < MAX_NUMBER_IN_CHAT){
     if (0 < msgrcv(qId, &msg_from[current_num_of_client],
                    sizeof(struct connect) - sizeof(long), 2, IPC_NOWAIT)) {
       int i = 0;
+
       while (msg_from[current_num_of_client].mText_Name[i] != '\n') {
         i++;
       }
@@ -80,6 +81,7 @@ int main() {
       msgsnd(qId, &store[i], sizeof(struct store_of_message) - sizeof(long), 0);
       current_num_of_client++;
     }
+  }
 
     // Отображение сообщений на сервере и сохранение дампа
     // for (int curr_pos = 0; curr_pos < current_num_of_client; curr_pos++){
@@ -109,6 +111,9 @@ int main() {
         msgsnd(qId, &mes, sizeof(struct message) - sizeof(long), 0);
       }
       curr_pos_in_chat++;
+      if (curr_pos_in_chat == (MAX_SIZE_OF_HISTORY_DUMP - 1)) {
+        curr_pos_in_chat = 0;
+      }
     }
 
     sleep(0.1);
